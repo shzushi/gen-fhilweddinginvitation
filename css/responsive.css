@@ -1,111 +1,74 @@
-/* ---------- Base safety ---------- */
-*, *::before, *::after { box-sizing: border-box; }
+/* ===== MEDIA / SLIDESHOW CONTAINMENT (append at the end) ===== */
 
-html { -webkit-text-size-adjust: 100%; }
-
-img, video { display: block; max-width: 100%; }
-
-/* Lets cards shrink inside flex/grid instead of overflowing */
-.card, .video, .video-container, .slideshow-container,
-.story-theme-card, .story-img, .entourage, .reminder,
-.timeline-content, .dress-code, .venue-box {
-  min-width: 0;
-  max-width: 100%;
-}
-
-/* Cards contain their children so nothing bleeds into the next section */
-.card, .story-theme-card, .entourage, .reminder,
-.timeline-content, .dress-code, .venue-box {
-  display: flow-root;
-}
-
-/* ---------- Video + slideshow frame ---------- */
 .video-container,
 .slideshow-container {
   position: relative;
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  isolation: isolate;
-  border-radius: clamp(10px, 2.5vw, 16px);
-  background: #000;
-}
-
-/* Fallback for iOS < 15 (no aspect-ratio support) */
-@supports not (aspect-ratio: 16 / 9) {
-  .video-container::before,
-  .slideshow-container::before {
-    content: "";
-    display: block;
-    padding-top: 56.25%;
-  }
+  border-radius: 14px;
 }
 
 .wedding-video {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: inherit;
 }
 
-/* ---------- Slides ---------- */
 .slide {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  visibility: hidden;          /* stacked slides no longer overlap visually */
-  transition: opacity .6s ease;
-  border-radius: inherit;
-}
-.slide.active {                /* use whatever class your JS toggles */
-  opacity: 1;
-  visibility: visible;
-  z-index: 1;
-}
-.slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  overflow: hidden;
   border-radius: inherit;
 }
 
-/* ---------- Arrows (always inside) ---------- */
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Arrows stay inside the frame */
 .slide-prev,
 .slide-next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;
-  width: clamp(28px, 8vw, 36px);
-  height: clamp(28px, 8vw, 36px);
+  width: 36px;
+  height: 36px;
 }
-.slide-prev { left: clamp(6px, 2vw, 10px); }
-.slide-next { right: clamp(6px, 2vw, 10px); }
+.slide-prev { left: 10px; }
+.slide-next { right: 10px; }
 
-/* ---------- Dots ---------- */
 .slide-dots {
   position: absolute;
-  left: 0; right: 0;
-  bottom: clamp(6px, 2vw, 10px);
+  left: 0;
+  right: 0;
+  bottom: 10px;
   z-index: 5;
   display: flex;
   justify-content: center;
   gap: 6px;
 }
 
-/* ---------- Story + film frame ---------- */
-.story-img { position: relative; width: 100%; overflow: hidden; }
-.story-img img { width: 100%; height: 100%; object-fit: cover; }
-.film-frame { position: relative; overflow: hidden; }
-.film-frame img { width: 100%; height: auto; }
+/* Stop story images from overflowing their cards */
+.story-img,
+.story-theme-card { min-width: 0; max-width: 100%; }
+.story-img img { max-width: 100%; }
 
-/* ---------- Landscape phones: don't let 16:9 eat the screen ---------- */
-@media (max-height: 500px) and (orientation: landscape) {
-  .video-container, .slideshow-container { max-height: 85dvh; }
-}
+@media (max-width: 480px) {
+  .video-container,
+  .slideshow-container { border-radius: 12px; }
 
-@media (prefers-reduced-motion: reduce) {
-  .slide, .wedding-video { transition: none; }
+  .slide-prev,
+  .slide-next { width: 30px; height: 30px; }
+  .slide-prev { left: 7px; }
+  .slide-next { right: 7px; }
+  .slide-dots { bottom: 8px; }
 }
