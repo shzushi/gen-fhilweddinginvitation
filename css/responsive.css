@@ -1,568 +1,111 @@
-/* =========================================================
-   MEDIA / VIDEO / SLIDESHOW CARD OVERFLOW FIX
-   Keeps ALL media completely inside its parent card
-========================================================= */
+/* ---------- Base safety ---------- */
+*, *::before, *::after { box-sizing: border-box; }
 
+html { -webkit-text-size-adjust: 100%; }
 
-/* =========================================================
-   GLOBAL MEDIA SAFETY
-========================================================= */
+img, video { display: block; max-width: 100%; }
 
-.video,
+/* Lets cards shrink inside flex/grid instead of overflowing */
+.card, .video, .video-container, .slideshow-container,
+.story-theme-card, .story-img, .entourage, .reminder,
+.timeline-content, .dress-code, .venue-box {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Cards contain their children so nothing bleeds into the next section */
+.card, .story-theme-card, .entourage, .reminder,
+.timeline-content, .dress-code, .venue-box {
+  display: flow-root;
+}
+
+/* ---------- Video + slideshow frame ---------- */
 .video-container,
-.wedding-video,
-.slideshow-container,
-.slide,
-.slide img,
-.story-img,
-.story-img img,
-.film-frame,
-.film-frame img {
-    box-sizing: border-box;
-    max-width: 100%;
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: clamp(10px, 2.5vw, 16px);
+  background: #000;
 }
 
-
-/* =========================================================
-   VIDEO CONTAINER
-========================================================= */
-
-.video-container {
-    position: relative;
-
-    width: 100%;
-    max-width: 100%;
-
-    aspect-ratio: 16 / 9;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    border-radius: 16px;
+/* Fallback for iOS < 15 (no aspect-ratio support) */
+@supports not (aspect-ratio: 16 / 9) {
+  .video-container::before,
+  .slideshow-container::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+  }
 }
-
-
-/* VIDEO ITSELF */
 
 .wedding-video {
-    display: block;
-
-    width: 100%;
-    max-width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
-
-    box-sizing: border-box;
-
-    border-radius: inherit;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
-
-/* =========================================================
-   SLIDESHOW CONTAINER
-========================================================= */
-
-.slideshow-container {
-    position: relative;
-
-    width: 100%;
-    max-width: 100%;
-
-    aspect-ratio: 16 / 9;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    border-radius: 14px;
-}
-
-
-/* =========================================================
-   SLIDES
-========================================================= */
-
+/* ---------- Slides ---------- */
 .slide {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    max-width: 100%;
-    max-height: 100%;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    border-radius: inherit;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;          /* stacked slides no longer overlap visually */
+  transition: opacity .6s ease;
+  border-radius: inherit;
 }
-
-
-/* SLIDESHOW IMAGES */
-
+.slide.active {                /* use whatever class your JS toggles */
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
 .slide img {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    max-width: 100%;
-    max-height: 100%;
-
-    object-fit: cover;
-
-    box-sizing: border-box;
-
-    border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
-
-/* =========================================================
-   SLIDESHOW ARROWS
-   KEEP THEM INSIDE THE CONTAINER
-========================================================= */
-
+/* ---------- Arrows (always inside) ---------- */
 .slide-prev,
 .slide-next {
-    position: absolute;
-
-    top: 50%;
-
-    width: 36px;
-    height: 36px;
-
-    z-index: 5;
-
-    transform: translateY(-50%);
-
-    box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: clamp(28px, 8vw, 36px);
+  height: clamp(28px, 8vw, 36px);
 }
+.slide-prev { left: clamp(6px, 2vw, 10px); }
+.slide-next { right: clamp(6px, 2vw, 10px); }
 
-
-/* IMPORTANT:
-   Do NOT use negative left/right values.
-*/
-
-.slide-prev {
-    left: 10px;
-}
-
-.slide-next {
-    right: 10px;
-}
-
-
-/* =========================================================
-   SLIDESHOW DOTS
-========================================================= */
-
+/* ---------- Dots ---------- */
 .slide-dots {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-
-    bottom: 10px;
-
-    z-index: 5;
-
-    width: 100%;
-
-    box-sizing: border-box;
+  position: absolute;
+  left: 0; right: 0;
+  bottom: clamp(6px, 2vw, 10px);
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
 }
 
+/* ---------- Story + film frame ---------- */
+.story-img { position: relative; width: 100%; overflow: hidden; }
+.story-img img { width: 100%; height: 100%; object-fit: cover; }
+.film-frame { position: relative; overflow: hidden; }
+.film-frame img { width: 100%; height: auto; }
 
-/* =========================================================
-   STORY IMAGE
-========================================================= */
-
-.story-img {
-    position: relative;
-
-    width: 100%;
-    max-width: 100%;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
+/* ---------- Landscape phones: don't let 16:9 eat the screen ---------- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .video-container, .slideshow-container { max-height: 85dvh; }
 }
-
-.story-img img {
-    display: block;
-
-    width: 100%;
-    max-width: 100%;
-
-    height: 100%;
-
-    object-fit: cover;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   FILM FRAME
-========================================================= */
-
-.film-frame {
-    position: relative;
-
-    max-width: 100%;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
-}
-
-.film-frame img {
-    display: block;
-
-    max-width: 100%;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   CARD SAFETY
-   Add these to the actual cards/sections
-========================================================= */
-
-.card,
-.video,
-.video-container,
-.slideshow-container,
-.story-theme-card,
-.story-img,
-.entourage,
-.reminder,
-.timeline-content,
-.dress-code,
-.venue-box {
-    min-width: 0;
-    max-width: 100%;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   TABLETS
-========================================================= */
-
-@media (min-width: 768px)
-       and (max-width: 1024px) {
-
-    .video-container {
-        width: 100%;
-        max-width: 100%;
-
-        aspect-ratio: 16 / 9;
-
-        overflow: hidden;
-
-        border-radius: 16px;
-    }
-
-    .wedding-video {
-        width: 100%;
-        height: 100%;
-
-        max-width: 100%;
-
-        object-fit: cover;
-
-        border-radius: inherit;
-    }
-
-    .slideshow-container {
-        width: 100%;
-        max-width: 100%;
-
-        aspect-ratio: 16 / 9;
-
-        overflow: hidden;
-
-        border-radius: 12px;
-    }
-
-    .slide {
-        width: 100%;
-        height: 100%;
-
-        overflow: hidden;
-
-        border-radius: inherit;
-    }
-
-    .slide img {
-        width: 100%;
-        height: 100%;
-
-        max-width: 100%;
-
-        object-fit: cover;
-
-        border-radius: inherit;
-    }
-
-    .slide-prev {
-        left: 10px;
-    }
-
-    .slide-next {
-        right: 10px;
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 767px) {
-
-    .video,
-    .slideshow-container {
-        width: 100%;
-        max-width: 100%;
-
-        min-width: 0;
-
-        box-sizing: border-box;
-    }
-
-
-    /* VIDEO */
-
-    .video-container {
-        width: 100%;
-        max-width: 100%;
-
-        aspect-ratio: 16 / 9;
-
-        overflow: hidden;
-
-        box-sizing: border-box;
-
-        border-radius: 14px;
-    }
-
-    .wedding-video {
-        display: block;
-
-        width: 100%;
-        height: 100%;
-
-        max-width: 100%;
-
-        object-fit: cover;
-
-        border-radius: inherit;
-    }
-
-
-    /* SLIDESHOW */
-
-    .slideshow-container {
-        position: relative;
-
-        width: 100%;
-        max-width: 100%;
-
-        aspect-ratio: 16 / 9;
-
-        overflow: hidden;
-
-        box-sizing: border-box;
-
-        border-radius: 14px;
-    }
-
-    .slide {
-        position: absolute;
-
-        inset: 0;
-
-        width: 100%;
-        height: 100%;
-
-        overflow: hidden;
-
-        border-radius: inherit;
-    }
-
-    .slide img {
-        display: block;
-
-        width: 100%;
-        height: 100%;
-
-        max-width: 100%;
-
-        object-fit: cover;
-
-        border-radius: inherit;
-    }
-
-
-    /* ARROWS STAY INSIDE */
-
-    .slide-prev,
-    .slide-next {
-        width: 32px;
-        height: 32px;
-
-        z-index: 5;
-    }
-
-    .slide-prev {
-        left: 8px;
-    }
-
-    .slide-next {
-        right: 8px;
-    }
-
-
-    /* DOTS */
-
-    .slide-dots {
-        left: 0;
-        right: 0;
-
-        bottom: 9px;
-
-        width: 100%;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL IPHONES
-========================================================= */
-
-@media (max-width: 390px) {
-
-    .video-container,
-    .slideshow-container {
-        width: 100%;
-        max-width: 100%;
-
-        border-radius: 12px;
-    }
-
-    .wedding-video,
-    .slide,
-    .slide img {
-        border-radius: inherit;
-    }
-
-    .slide-prev,
-    .slide-next {
-        width: 29px;
-        height: 29px;
-    }
-
-    .slide-prev {
-        left: 7px;
-    }
-
-    .slide-next {
-        right: 7px;
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
-
-@media (max-width: 340px) {
-
-    .video-container,
-    .slideshow-container {
-        width: 100%;
-        max-width: 100%;
-
-        border-radius: 10px;
-    }
-
-    .slide-prev,
-    .slide-next {
-        width: 27px;
-        height: 27px;
-    }
-
-    .slide-prev {
-        left: 6px;
-    }
-
-    .slide-next {
-        right: 6px;
-    }
-
-}
-
-
-/* =========================================================
-   LANDSCAPE PHONES
-========================================================= */
-
-@media (max-height: 500px)
-       and (orientation: landscape) {
-
-    .video-container,
-    .slideshow-container {
-        width: 100%;
-        max-width: 100%;
-
-        aspect-ratio: 16 / 9;
-
-        overflow: hidden;
-    }
-
-    .wedding-video,
-    .slide img {
-        width: 100%;
-        height: 100%;
-
-        max-width: 100%;
-
-        object-fit: cover;
-    }
-
-    .slide-prev {
-        left: 8px;
-    }
-
-    .slide-next {
-        right: 8px;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
-    .wedding-video,
-    .slide,
-    .slide img {
-        transition: none;
-    }
-
+  .slide, .wedding-video { transition: none; }
 }
