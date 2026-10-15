@@ -711,3 +711,102 @@ h1, h2, h3, h4, p, span {
         animation: none !important;
     }
 }
+
+/* ---------------------------------------------------------------
+   9. HERO TEXT (h1 stays on one line)
+   Change the middle number in clamp() to make it bigger or smaller
+--------------------------------------------------------------- */
+
+.hero-content h1 {
+    font-size: clamp(2.6rem, 11vw, 4.8rem);
+    line-height: 1.15;
+    white-space: nowrap;          /* keeps "Gen & Fhil" on one line */
+}
+
+/* spans inside the h1 (names, "&") follow the h1 size and stay inline */
+.hero-content h1 span {
+    font-size: inherit;
+    display: inline;
+}
+
+.hero-content p {
+    font-size: clamp(.95rem, 2.8vw, 1.15rem);
+    line-height: 1.6;
+}
+
+.hero-content span {
+    font-size: clamp(.9rem, 2.6vw, 1.05rem);
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    .hero-content h1 {
+        font-size: clamp(2.2rem, 12.5vw, 3.2rem);
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-content span {
+        font-size: .95rem;
+    }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .hero-content h1 {
+        font-size: clamp(2rem, 12vw, 2.4rem);
+    }
+
+    .hero-content p,
+    .hero-content span {
+        font-size: .9rem;
+    }
+}
+
+/* ---------------------------------------------------------------
+   10. HERO SPACING (the wedding of / Gen & Fhil / countdown)
+   Change the clamp() values to make the spacing bigger or smaller
+--------------------------------------------------------------- */
+
+/* "the wedding of" text above the names */
+.hero-content p,
+.hero-content > span {
+    padding-top: clamp(.5rem, 2vh, 1.2rem);
+    padding-bottom: clamp(.5rem, 2vh, 1.2rem);
+}
+
+/* Gen & Fhil */
+.hero-content h1 {
+    padding-top: clamp(.6rem, 2.5vh, 1.5rem);
+    padding-bottom: clamp(1rem, 3vh, 2rem);
+}
+
+/* Countdown */
+.countdown {
+    padding-top: clamp(1rem, 3vh, 2rem);
+    padding-bottom: clamp(1rem, 3vh, 2rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    .hero-content p,
+    .hero-content > span {
+        padding-top: .6rem;
+        padding-bottom: .6rem;
+    }
+
+    .hero-content h1 {
+        padding-top: .8rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .countdown {
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+}
