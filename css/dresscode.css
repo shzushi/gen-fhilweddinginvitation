@@ -135,7 +135,7 @@
 ========================================= */
 
 .dress-code-note-box {
-    max-width: 700px;
+    max-width: 850px;
 
     margin: 3rem auto;
 
@@ -167,6 +167,19 @@
     line-height: 1.9;
 
     color: #555;
+}
+
+.dress-img {
+	padding: 1.75rem;
+}
+
+.dress-img img:hover {
+	cursor: zoom-in;
+}
+	
+.dress-img img {
+    filter: brightness(.96);
+	border-radius: 18px;
 }
 
 
