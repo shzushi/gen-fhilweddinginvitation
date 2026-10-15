@@ -717,51 +717,44 @@ h1, h2, h3, h4, p, span {
    Change the middle number in clamp() to make it bigger or smaller
 --------------------------------------------------------------- */
 
-.hero-content h1 {
-    font-size: clamp(2.6rem, 11vw, 4.8rem);
-    line-height: 1.15;
-    white-space: nowrap;          /* keeps "Gen & Fhil" on one line */
-}
-
-/* spans inside the h1 (names, "&") follow the h1 size and stay inline */
-.hero-content h1 span {
-    font-size: inherit;
-    display: inline;
-}
-
-.hero-content p {
-    font-size: clamp(.95rem, 2.8vw, 1.15rem);
-    line-height: 1.6;
-}
-
-.hero-content span {
-    font-size: clamp(.9rem, 2.6vw, 1.05rem);
-}
-
 /* Phones */
 @media (max-width: 600px) {
-    .hero-content h1 {
-        font-size: clamp(2.2rem, 12.5vw, 3.2rem);
-    }
+	.hero-content h1 {
+		font-size: clamp(3.6rem, 16vw, 6.5rem);   /* Gen and Fhil (bigger) */
+		line-height: 1.1;
+		white-space: normal;
+		width: min-content;
+		max-width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
 
     .hero-content p {
         font-size: 1rem;
+		line-height: 1.6;
     }
+	
+	/* spans inside the h1 (names, "&") follow the h1 size and stay inline */
+	.hero-content h1 span {
+		font-size: clamp(2.6rem, 11vw, 4.8rem);   /* the & (same as before) */
+		display: block;
+	}
 
     .hero-content span {
-        font-size: .95rem;
+		font-size: clamp(.9rem, 2.6vw, 1.05rem);
     }
 }
 
 /* Small phones */
 @media (max-width: 380px) {
     .hero-content h1 {
-        font-size: clamp(2rem, 12vw, 2.4rem);
+        font-size: clamp(3.2rem, 17vw, 4.8rem);
     }
 
     .hero-content p,
     .hero-content span {
-        font-size: .9rem;
+        font-size: clamp(2.2rem, 12.5vw, 3.2rem);
     }
 }
 
@@ -810,3 +803,39 @@ h1, h2, h3, h4, p, span {
         padding-bottom: 1.2rem;
     }
 }
+
+/* ---------------------------------------------------------------
+   11. DRESS CODE IMAGE (responsive, bigger)
+--------------------------------------------------------------- */
+
+.dress-img {
+    padding: clamp(.25rem, 1.5vw, 1rem);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.dress-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    filter: brightness(.96);
+    border-radius: clamp(12px, 3vw, 18px);
+}
+
+/* zoom cursor only where there is a mouse */
+@media (hover: hover) {
+    .dress-img img:hover {
+        cursor: zoom-in;
+    }
+}
+
+/* Phones: almost edge to edge */
+@media (max-width: 600px) {
+    .dress-img {
+        padding: .25rem;
+    }
+}
+
