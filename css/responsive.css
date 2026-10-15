@@ -68,27 +68,6 @@ h1, h2, h3, h4, p, span {
     line-height: 1.1;
 }
 
-.envelope-photo {
-    width: calc(var(--ew) * var(--pw));
-    height: calc(var(--ew) * var(--ph));
-}
-
-.envelope.open .photo-left {
-    transform:
-        translate(-50%, -50%)
-        translate(calc(var(--ew) * var(--px) * -1), calc(var(--ew) * var(--py) * -1))
-        rotate(-18deg)
-        scale(1);
-}
-
-.envelope.open .photo-right {
-    transform:
-        translate(-50%, -50%)
-        translate(calc(var(--ew) * var(--px)), calc(var(--ew) * var(--py) * -1))
-        rotate(18deg)
-        scale(1);
-}
-
 .wax-seal {
     width: clamp(76px, calc(var(--ew) * .3), 120px);
     height: clamp(76px, calc(var(--ew) * .3), 120px);
@@ -101,16 +80,40 @@ h1, h2, h3, h4, p, span {
 
 /* Phones: slightly smaller offsets so rotated corners never leave the screen */
 @media (max-width: 600px) {
+	
     .envelope {
         --pw: .46;
         --ph: .60;
         --px: .20;
         --py: .22;
     }
+	
+	.envelope-photo {
+		width: calc(var(--ew) * var(--pw));
+		height: calc(var(--ew) * var(--ph));
+	}
+
+.envelope.open .photo-left {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px) * -1), calc(var(--ew) * var(--py) * -1))
+        rotate(-18deg)
+        scale(1);
+	}
+
+.envelope.open .photo-right {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px)), calc(var(--ew) * var(--py) * -1))
+        rotate(18deg)
+        scale(1);
+	}
+
 }
 
 /* Landscape phones: shrink everything so it fits the short screen */
 @media (max-height: 520px) and (orientation: landscape) {
+	
     .envelope-screen {
         overflow-y: auto;
         align-items: safe center;
@@ -132,6 +135,28 @@ h1, h2, h3, h4, p, span {
     .click-text {
         margin-top: 16px;
     }
+	
+	.envelope-photo {
+		width: calc(var(--ew) * var(--pw));
+		height: calc(var(--ew) * var(--ph));
+	}
+
+.envelope.open .photo-left {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px) * -1), calc(var(--ew) * var(--py) * -1))
+        rotate(-18deg)
+        scale(1);
+	}
+
+.envelope.open .photo-right {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px)), calc(var(--ew) * var(--py) * -1))
+        rotate(18deg)
+        scale(1);
+	}
+
 }
 
 
