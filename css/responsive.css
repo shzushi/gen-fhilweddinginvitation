@@ -706,7 +706,8 @@ h1, h2, h3, h4, p, span {
     .gallery-track,
     .envelope,
     .special-day,
-    .time-box {
+    .time-box,
+	#story-theme {
         animation: none !important;
     }
 }
