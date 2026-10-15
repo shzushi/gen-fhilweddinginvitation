@@ -712,10 +712,10 @@ h1, h2, h3, h4, p, span {
 }
 
 /* ---------------------------------------------------------------
-   9. REMOVE CARD LOOK ON MOBILE
+   9. REMOVE CARD LOOK ON MOBILE + TABLET (desktop unchanged)
 --------------------------------------------------------------- */
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
 
     /* Date + Venue & Time (event details section) */
     .calendar,
@@ -746,7 +746,7 @@ h1, h2, h3, h4, p, span {
         -webkit-backdrop-filter: none;
     }
 
-    /* Give the content a little breathing room from the screen edges */
+    /* Breathing room from the screen edges */
     .event-details {
         padding-left: 1rem;
         padding-right: 1rem;
