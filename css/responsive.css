@@ -84,10 +84,10 @@ h1, h2, h3, h4, p, span {
     .envelope {
         --ew: min(300px, 72vw);
 
-        --pw: .40;   /* photo width  (was .30) */
-        --ph: .52;   /* photo height (was .38) */
-        --px: .19;   /* sideways distance */
-        --py: .21;   /* upward distance */
+        --pw: .45;   /* photo width  (was .40) */
+        --ph: .58;   /* photo height (was .52) */
+        --px: .21;   /* sideways distance (was .19) */
+        --py: .23;   /* upward distance (was .21) */
     }
 
     .invited {
@@ -169,10 +169,10 @@ h1, h2, h3, h4, p, span {
     .envelope {
         --ew: min(260px, 68vw);
 
-        --pw: .37;
-        --ph: .48;
-        --px: .17;
-        --py: .19;
+        --pw: .41;   /* was .37 */
+        --ph: .53;   /* was .48 */
+        --px: .19;   /* was .17 */
+        --py: .21;   /* was .19 */
     }
 }
 
@@ -180,19 +180,6 @@ h1, h2, h3, h4, p, span {
    2. SLIDESHOW - every frame visible, no cropping,
       arrows INSIDE the frame (no more sideways overflow)
 --------------------------------------------------------------- */
-
-.slideshow-container {
-    width: min(100%, 800px, calc(78vh * 4 / 3));
-    margin-left: auto;
-    margin-right: auto;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;              /* was visible */
-    background: #171915;
-}
-
-.slide {
-    background: #171915;
-}
 
 .slide img {
     width: 100%;
