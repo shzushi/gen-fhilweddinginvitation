@@ -247,8 +247,15 @@ h1, h2, h3, h4, p, span {
 
 .event-grid {
     width: 100%;
-    max-width: 1280px;         /* room for the wider cards side by side */
+    max-width: 1500px;         /* room for the wider cards side by side */
     gap: 2.5rem;
+}
+
+/* tablets: one column so each card gets the full width */
+@media (max-width: 1024px) {
+    .event-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 @media (max-width: 600px) {
@@ -267,7 +274,7 @@ h1, h2, h3, h4, p, span {
 /* ----- date / calendar ----- */
 
 .calendar-container {
-    max-width: 640px;
+    max-width: 740px;
 }
 
 .calendar {
@@ -304,7 +311,7 @@ h1, h2, h3, h4, p, span {
 /* ----- venue & time ----- */
 
 .venue-container {
-    max-width: 600px;
+    max-width: 700px;
 }
 
 .venue-box {
