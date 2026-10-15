@@ -1,74 +1,567 @@
-/* ===== MEDIA / SLIDESHOW CONTAINMENT (append at the end) ===== */
+/* =====================================================================
+   RESPONSIVE FIX - PASTE AT THE VERY BOTTOM OF YOUR CSS
+   Needs in <head>:
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+   Breakpoints: 1024 / 768 / 600 / 480 / 380 / landscape phones
+===================================================================== */
 
-.video-container,
-.slideshow-container {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 14px;
+
+/* ---------------------------------------------------------------
+   0. GLOBAL SAFETY
+--------------------------------------------------------------- */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
-.wedding-video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+body {
+    overflow-x: hidden;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+}
+
+body.no-scroll {
+    height: 100vh;
+    height: 100dvh;
+}
+
+img, video, iframe {
+    max-width: 100%;
+}
+
+h1, h2, h3, h4, p, span {
+    overflow-wrap: break-word;
+}
+
+/* Lets grid/flex children shrink instead of pushing the page wider */
+.entourage, .reminder, .reminder-box, .dress-code, .calendar,
+.venue-box, .timeline-content, .story-theme-card, .story-content,
+.story-img, .rsvp-intro, .rsvp-form, .video, .slideshow-container {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------------
+   1. ENVELOPE INTRO
+   Everything scales from ONE variable (--ew = envelope width),
+   so the photos, ring and seal always fit the screen.
+--------------------------------------------------------------- */
+
+.envelope {
+    --ew: min(390px, 90vw);
+
+    /* photo size / position as a fraction of envelope width (BIGGER) */
+    --pw: .62;   /* photo width  */
+    --ph: .80;   /* photo height */
+    --px: .36;   /* how far each photo moves sideways */
+    --py: .30;   /* how far each photo moves up */
+
+    width: var(--ew);
+}
+
+.invited {
+    font-size: clamp(2.8rem, 14vw, 5.3rem);
+    margin-bottom: clamp(90px, 22vw, 140px);   /* room for the bigger photos */
+    line-height: 1.1;
+}
+
+.envelope-photo {
+    width: calc(var(--ew) * var(--pw));
+    height: calc(var(--ew) * var(--ph));
+}
+
+.envelope.open .photo-left {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px) * -1), calc(var(--ew) * var(--py) * -1))
+        rotate(-18deg)
+        scale(1);
+}
+
+.envelope.open .photo-right {
+    transform:
+        translate(-50%, -50%)
+        translate(calc(var(--ew) * var(--px)), calc(var(--ew) * var(--py) * -1))
+        rotate(18deg)
+        scale(1);
+}
+
+.wax-seal {
+    width: clamp(76px, calc(var(--ew) * .3), 120px);
+    height: clamp(76px, calc(var(--ew) * .3), 120px);
+}
+
+.envelope-ring {
+    width: clamp(62px, calc(var(--ew) * .23), 90px);
+    height: clamp(62px, calc(var(--ew) * .23), 90px);
+}
+
+/* Phones: slightly smaller offsets so rotated corners never leave the screen */
+@media (max-width: 600px) {
+    .envelope {
+        --pw: .46;
+        --ph: .60;
+        --px: .20;
+        --py: .22;
+    }
+}
+
+/* Landscape phones: shrink everything so it fits the short screen */
+@media (max-height: 520px) and (orientation: landscape) {
+    .envelope-screen {
+        overflow-y: auto;
+        align-items: safe center;
+    }
+
+    .envelope {
+        --ew: min(340px, calc(46vh * 1.56), 90vw);
+        --pw: .46;
+        --ph: .60;
+        --px: .20;
+        --py: .22;
+    }
+
+    .invited {
+        font-size: 2.2rem;
+        margin-bottom: 60px;
+    }
+
+    .click-text {
+        margin-top: 16px;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   2. SLIDESHOW - every frame visible, no cropping,
+      arrows INSIDE the frame (no more sideways overflow)
+--------------------------------------------------------------- */
+
+.slideshow-container {
+    width: min(100%, 800px, calc(78vh * 4 / 3));
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;              /* was visible */
+    background: #171915;
 }
 
 .slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: inherit;
+    background: #171915;
 }
 
 .slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;           /* shows the WHOLE picture */
 }
 
-/* Arrows stay inside the frame */
 .slide-prev,
 .slide-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 5;
-  width: 36px;
-  height: 36px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    background: rgba(255, 255, 255, .92);
 }
-.slide-prev { left: 10px; }
-.slide-next { right: 10px; }
+
+.slide-prev { left: 10px; }        /* was -23px */
+.slide-next { right: 10px; }       /* was -23px */
 
 .slide-dots {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
+    bottom: 12px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, .35);
+    max-width: calc(100% - 100px);
+    flex-wrap: wrap;
 }
 
-/* Stop story images from overflowing their cards */
-.story-img,
-.story-theme-card { min-width: 0; max-width: 100%; }
-.story-img img { max-width: 100%; }
+@media (max-width: 480px) {
+    .slideshow-container {
+        border-radius: 14px;
+    }
+
+    .slide { border-radius: 14px; }
+
+    .slide-prev,
+    .slide-next {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .slide-prev { left: 6px; }
+    .slide-next { right: 6px; }
+
+    .slide-dots {
+        bottom: 8px;
+        gap: 6px;
+        padding: 4px 8px;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   3. VIDEO
+--------------------------------------------------------------- */
+
+.video-container {
+    width: 100%;
+    max-width: min(850px, calc(78vh * 16 / 9));
+}
+
+@media (max-width: 600px) {
+    .video-container,
+    .wedding-video {
+        border-radius: 14px;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   3b. GALLERY - smaller photos so more are visible at once
+   (> img = direct images only, so film-frame photos aren't touched)
+--------------------------------------------------------------- */
+
+.gallery-track > img {
+    width: 210px;
+    height: 170px;
+}
+
+.film-frame {
+    width: 210px;
+    height: 200px;
+}
+
+.gallery-track {
+    animation-duration: 90s;   /* smaller photos = shorter strip, keeps scroll speed similar */
+}
+
+
+/* ---------------------------------------------------------------
+   4. TABLETS & BELOW (768)
+--------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    /* inputs at 16px stop iPhones from zooming the page on focus */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+
+    /* ----- OUR STORY: stack, hide centre line/dot (they overlapped) ----- */
+    .story-theme-grid::before,
+    .story-theme-card::before {
+        display: none;
+    }
+
+    .story-theme-card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .story-theme-card.reverse {
+        direction: ltr;
+    }
+
+    .story-img {
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .story-content {
+        text-align: center;
+        padding: .25rem .25rem 0;
+    }
+
+    .story-content h3 {
+        font-size: 1.7rem;
+    }
+
+    .story-theme-card:hover {
+        transform: none;
+    }
+
+    /* ----- WEDDING TIMELINE: line on the left, one column ----- */
+    .timeline::before {
+        left: 23px;
+        transform: none;
+    }
+
+    .timeline-item {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        padding-left: 64px;
+        margin-bottom: 2rem;
+    }
+
+    .timeline-dot {
+        left: 23px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content,
+    .timeline-item:nth-child(even) .timeline-content {
+        grid-column: 1;
+        justify-self: stretch;
+        max-width: 100%;
+        text-align: left;
+    }
+
+    /* ----- CALENDAR: softer pulse so it doesn't cover neighbours ----- */
+    .special-day {
+        position: relative;
+        z-index: 1;
+        animation: calendarPulseSoft 2s ease-in-out infinite;
+    }
+
+    /* ----- FOOTER: contact block was absolutely positioned on top of text ----- */
+    .footer-contact {
+        position: static;
+        align-items: center;
+        margin-top: 1.5rem;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .wedding-footer {
+        padding: 2.5rem 1.25rem 2rem;
+    }
+
+    /* ----- ENTOURAGE ----- */
+    .entourage .grid-two-col {
+        max-width: 100%;
+    }
+
+    /* ----- ZOOM MODAL: respect notch ----- */
+    #zoom-modal img {
+        max-width: 92%;
+        max-height: 85vh;
+        max-height: 85dvh;
+    }
+
+    #zoom-close {
+        top: max(16px, env(safe-area-inset-top));
+        right: max(16px, env(safe-area-inset-right));
+    }
+
+    /* ----- SCROLL CUE: stay clear of the iPhone home bar ----- */
+    .scroll-cue {
+        bottom: max(24px, env(safe-area-inset-bottom));
+    }
+}
+
+@keyframes calendarPulseSoft {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(188,108,37,.5); }
+    50%  { transform: scale(1.06); box-shadow: 0 0 10px 3px rgba(188,108,37,.3); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(188,108,37,0); }
+}
+
+
+/* ---------------------------------------------------------------
+   5. PHONES (600)
+--------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    /* section titles scale with the screen */
+    .stories-title,
+    .timeline-title,
+    #gallery-txt,
+    .rsvp-intro h3,
+    .dress-code-title,
+    .entourage > h3:first-child {
+        font-size: clamp(2.1rem, 9.5vw, 3rem);
+    }
+
+    .entourage h3:not(:first-child) {
+        font-size: clamp(1.8rem, 7.5vw, 2.25rem);
+    }
+
+    .calendar-header {
+        font-size: clamp(1.6rem, 7vw, 2.15rem);
+    }
+
+    /* section padding */
+    .story-theme   { padding: 2.5rem 1rem; }
+    .wedding-timeline { padding: 3rem 1rem; }
+    .reminder      { padding: 2rem 1.1rem; }
+    .dress-code    { padding: 2.5rem 1.25rem; }
+    .rsvp          { padding: 1rem .75rem; }
+    .rsvp-intro    { padding: 2rem 1.25rem; }
+
+    /* entourage: 3 columns -> 1 */
+    .grid-three-col {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .entourage::before,
+    .entourage::after {
+        font-size: 3.5rem;
+    }
+
+    /* reminder cards can't force the page wider than the screen */
+    .reminder-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+        gap: 1.1rem;
+    }
+
+    /* dress code */
+    .dress-code-script { font-size: 1.7rem; }
+    .dress-code-intro  { font-size: .95rem; line-height: 1.8; }
+
+    .wedding-colors {
+        gap: 1.2rem;
+        margin: 2rem 0;
+    }
+
+    .color-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    /* gallery (smaller) */
+    .gallery-track > img {
+        width: 150px;
+        height: 125px;
+    }
+
+    .film-frame {
+        width: 150px;
+        height: 145px;
+    }
+
+    /* buttons easy to tap, never wider than the card */
+    .rsvp-intro .btn.yes,
+    .rsvp-form .btn.yes {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .footer-names {
+        font-size: 2rem;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   6. SMALL PHONES (480)
+--------------------------------------------------------------- */
 
 @media (max-width: 480px) {
-  .video-container,
-  .slideshow-container { border-radius: 12px; }
 
-  .slide-prev,
-  .slide-next { width: 30px; height: 30px; }
-  .slide-prev { left: 7px; }
-  .slide-next { right: 7px; }
-  .slide-dots { bottom: 8px; }
+    .countdown {
+        gap: 8px;
+    }
+
+    .time-box {
+        min-width: 64px;
+        padding: .6rem .5rem;
+    }
+
+    .time-box span {
+        font-size: 1.5rem;
+    }
+
+    .calendar {
+        padding: 1.2rem .8rem;
+    }
+
+    .calendar-grid {
+        gap: .3rem;
+    }
+
+    .calendar-grid div,
+    .special-day {
+        min-height: 38px;
+        font-size: .85rem;
+        padding: .4rem .1rem;
+    }
+
+    .calendar-grid div:nth-child(-n+7) {
+        min-height: auto;
+        font-size: .7rem;
+    }
+
+    .venue-box {
+        padding: 1.2rem 1rem;
+    }
+
+    .timeline-content {
+        padding: 1.2rem 1.2rem;
+    }
+
+    .timeline-content h3 {
+        font-size: 1.6rem;
+    }
+
+    .reminder-box {
+        padding: 1.4rem 1.1rem;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   7. VERY SMALL PHONES (380 and below)
+--------------------------------------------------------------- */
+
+@media (max-width: 380px) {
+
+    .entourage {
+        padding: 2.5rem 1rem;
+        border-radius: 18px;
+    }
+
+    .timeline-item {
+        padding-left: 54px;
+    }
+
+    .timeline-dot {
+        left: 19px;
+        width: 38px;
+        height: 38px;
+        font-size: .8rem;
+    }
+
+    .timeline::before {
+        left: 19px;
+    }
+
+    /* gallery (smaller) */
+    .gallery-track > img {
+        width: 130px;
+        height: 110px;
+    }
+
+    .film-frame {
+        width: 130px;
+        height: 125px;
+    }
+
+    .color-circle {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+
+/* ---------------------------------------------------------------
+   8. REDUCED MOTION
+--------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-track,
+    .envelope,
+    .special-day,
+    .time-box {
+        animation: none !important;
+    }
 }
