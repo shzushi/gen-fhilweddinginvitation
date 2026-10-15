@@ -19,6 +19,10 @@ body{
     line-height:1.6;
 }
 
+.envelope-content p {
+	margin-bottom: 10px;
+}
+
 .hero-content{
     max-width:800px;
 }
