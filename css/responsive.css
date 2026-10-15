@@ -242,6 +242,104 @@ h1, h2, h3, h4, p, span {
 
 
 /* ---------------------------------------------------------------
+   3c. DATE + VENUE & TIME - BIGGER
+--------------------------------------------------------------- */
+
+.event-grid {
+    max-width: 1100px;         /* room for the bigger cards side by side */
+}
+
+.subheading {
+    font-size: clamp(1.8rem, 6vw, 2.3rem);
+    margin-bottom: 1.2rem;
+}
+
+/* ----- date / calendar ----- */
+
+.calendar-container {
+    max-width: 540px;
+}
+
+.calendar {
+    padding: 2rem 2rem;
+}
+
+.calendar-header {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+}
+
+.calendar-grid {
+    gap: .7rem;
+}
+
+.calendar-grid div {
+    min-height: 50px;
+    font-size: 1.15rem;
+}
+
+.calendar-grid div:nth-child(-n+7) {
+    min-height: auto;
+    font-size: .9rem;
+}
+
+.special-day {
+    min-height: 50px;
+    font-size: 1.15rem;
+}
+
+.calendar-footer {
+    font-size: 1.35rem;
+}
+
+/* ----- venue & time ----- */
+
+.venue-container {
+    max-width: 480px;
+}
+
+.venue-box {
+    padding: 1.8rem 1.6rem;
+}
+
+.venue-icon {
+    font-size: 2.6rem;
+    margin-bottom: .6rem;
+}
+
+.venue-title {
+    font-size: 1.7rem;
+}
+
+.venue-sub {
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.btn-map {
+    font-size: .95rem;
+    padding: .6rem 1.3rem;
+}
+
+.cal-btn {
+    font-size: 13px;
+    padding: 8px 16px;
+}
+
+
+/* ---------------------------------------------------------------
+   3d. SCROLL CUE - clear space between it and the countdown
+--------------------------------------------------------------- */
+
+.countdown {
+    margin-bottom: clamp(120px, 20vh, 170px);   /* keeps the countdown above the cue */
+}
+
+.scroll-cue {
+    bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+
+/* ---------------------------------------------------------------
    4. TABLETS & BELOW (768)
 --------------------------------------------------------------- */
 
@@ -472,27 +570,55 @@ h1, h2, h3, h4, p, span {
     }
 
     .calendar {
-        padding: 1.2rem .8rem;
+        padding: 1.4rem .9rem;
     }
 
     .calendar-grid {
-        gap: .3rem;
+        gap: .35rem;
     }
 
     .calendar-grid div,
     .special-day {
-        min-height: 38px;
-        font-size: .85rem;
+        min-height: 44px;
+        font-size: 1rem;
         padding: .4rem .1rem;
     }
 
     .calendar-grid div:nth-child(-n+7) {
         min-height: auto;
-        font-size: .7rem;
+        font-size: .78rem;
+    }
+
+    .calendar-footer {
+        font-size: 1.2rem;
     }
 
     .venue-box {
-        padding: 1.2rem 1rem;
+        padding: 1.5rem 1.2rem;
+    }
+
+    .venue-title {
+        font-size: 1.5rem;
+    }
+
+    .venue-sub {
+        font-size: 1rem;
+    }
+
+    /* scroll cue a bit more compact so it never crowds the countdown */
+    .scroll-cue {
+        gap: 7px;
+    }
+
+    .scroll-cue-text {
+        font-size: 9px;
+        letter-spacing: 2px;
+        padding: 6px 12px;
+    }
+
+    .scroll-cue-track {
+        width: 22px;
+        height: 36px;
     }
 
     .timeline-content {
