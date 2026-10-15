@@ -246,7 +246,17 @@ h1, h2, h3, h4, p, span {
 --------------------------------------------------------------- */
 
 .event-grid {
-    max-width: 1100px;         /* room for the bigger cards side by side */
+    width: 100%;
+    max-width: 1280px;         /* room for the wider cards side by side */
+    gap: 2.5rem;
+}
+
+@media (max-width: 600px) {
+    /* use more of the phone screen width */
+    .event-details {
+        padding-left: .5rem;
+        padding-right: .5rem;
+    }
 }
 
 .subheading {
@@ -257,7 +267,7 @@ h1, h2, h3, h4, p, span {
 /* ----- date / calendar ----- */
 
 .calendar-container {
-    max-width: 540px;
+    max-width: 640px;
 }
 
 .calendar {
@@ -294,7 +304,7 @@ h1, h2, h3, h4, p, span {
 /* ----- venue & time ----- */
 
 .venue-container {
-    max-width: 480px;
+    max-width: 600px;
 }
 
 .venue-box {
@@ -331,11 +341,13 @@ h1, h2, h3, h4, p, span {
 --------------------------------------------------------------- */
 
 .countdown {
-    margin-bottom: clamp(120px, 20vh, 170px);   /* keeps the countdown above the cue */
+    position: relative;
+    z-index: 2;
+    margin-bottom: clamp(170px, 28vh, 240px);   /* breathing room above the scroll cue */
 }
 
 .scroll-cue {
-    bottom: max(20px, env(safe-area-inset-bottom));
+    bottom: max(14px, env(safe-area-inset-bottom));
 }
 
 
