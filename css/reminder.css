@@ -167,3 +167,52 @@
     background:
         rgba(188, 108, 37, 0.08);
 }
+
+/* =========================================
+   HASHTAG: BURNT ORANGE SHINING TEXT
+========================================= */
+
+.hashtag {
+    display: inline-block;
+    font-style: italic;
+    font-weight: 400;
+	font-size: 13px;
+    letter-spacing: 0.5px;
+    text-align: center;
+	margin-top: 10px;
+    max-width: 100%;
+    overflow-wrap: anywhere;   /* long hashtag wraps on small phones */
+
+    /* Burnt orange base with a moving light streak */
+    background: linear-gradient(
+        110deg,
+        #cc5500 0%,
+        #cc5500 40%,
+        #ffd9a8 50%,
+        #cc5500 60%,
+        #cc5500 100%
+    );
+    background-size: 250% 100%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #cc5500;   /* fallback for browsers without background-clip: text */
+
+    animation: hashtagShine 3s linear infinite;
+}
+
+@keyframes hashtagShine {
+    100% {
+        background-position: -150% 0;
+    }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+    .hashtag {
+        animation: none;
+        -webkit-text-fill-color: #cc5500;
+        background: none;
+    }
+}
