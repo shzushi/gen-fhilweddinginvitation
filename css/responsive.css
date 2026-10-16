@@ -903,3 +903,51 @@ h1, h2, h3, h4, p, span {
         font-size: 1.3rem;
     }
 }
+
+/* ---------------------------------------------------------------
+   12. LEAD QUOTE (blur only)
+--------------------------------------------------------------- */
+
+.lead,
+.hero-content .lead {
+    font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+    line-height: 1.75;
+    font-weight: 500;
+    letter-spacing: .02em;
+    text-align: center;
+    color: #fffdf7;
+    text-shadow:
+        0 1px 3px rgba(0, 0, 0, .7),
+        0 2px 12px rgba(0, 0, 0, .5);
+
+    max-width: 32em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: .9rem 1.25rem;
+    box-sizing: border-box;
+
+    background: transparent;                 /* no tint */
+    border-radius: 14px;
+    backdrop-filter: blur(1px);              /* blur only */
+    -webkit-backdrop-filter: blur(8px);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+}
+
+/* Phones */
+@media (max-width: 600px) {
+    .lead,
+    .hero-content .lead {
+        font-size: clamp(1rem, 4.4vw, 1.2rem);
+        line-height: 1.7;
+        max-width: calc(100% - 2rem);
+    }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .lead,
+    .hero-content .lead {
+        font-size: 1rem;
+    }
+}
